@@ -62,15 +62,18 @@ class publish extends Command
                                 $crawler2 = $client->request('GET', $href);
                                 $link = $crawler2->filter('.download-link > a')->first();
 
+                                $video = explode('?', $link->attr('href'));
+                                $video = $video[0];
+
                                 $this->info('title: ' . $node->attr('title'));
-                                $this->info('link: ' . $link->attr('href'));
+                                $this->info('link: ' . $video);
 
 
                                 $this->info('publishing message ...');
                                 $telegram->sendVideo([
                                     'chat_id' => '@axmaxclip',
-                                    'video' => $link->attr('href'),
-                                    'caption' => $node->attr('title')
+                                    'video' => $video,
+                                    'caption' => $node->attr('title') . "\n\n📽 @axmaxclip"
                                 ]);
 
                                 $this->info('done');
