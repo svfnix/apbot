@@ -41,7 +41,7 @@ class publish extends Command
     public function handle()
     {
         $client = new Client();
-        $crawler = $client->request('GET', 'http://www.aparat.com/tech');
+        $crawler = $client->request('GET', env('REPOSITORY'));
 
         $counter = 0;
         $lastvideos = cache('lastvideos', []);
@@ -71,9 +71,9 @@ class publish extends Command
 
                                 $this->info('publishing message ...');
                                 $telegram->sendVideo([
-                                    'chat_id' => '@axmaxclip',
+                                    'chat_id' => env('CHANNEL'),
                                     'video' => $video,
-                                    'caption' => $node->attr('title') . "\n\n📽 @axmaxclip"
+                                    'caption' => $node->attr('title') . "\n\n📽 " . env('CHANNEL')
                                 ]);
 
                                 $this->info('done');
